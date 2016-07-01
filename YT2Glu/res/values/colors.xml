@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="gray">#bbbbbb</color>
+    <color name="dark_gray">#999999</color>
+    <color name="light_gray">#cccccc</color>
+    <color name="white">#ffffff</color>
+    <color name="white1">#eeeeee</color>
+    <color name="red">#ff0000</color>
+    <color name="dark_red">#990000</color>
+    <color name="lang_bai">#C7E8F7</color>
+    <color name="blue">#ff0ab2fb</color>
+    <color name="spo2_color">#66ffff</color> <!-- SPO2波形颜色 -->
+    <color name="nibp_color">#003475</color> <!-- nibp血压计颜色 -->
+    <color name="nibp_back_color">#c3c4c4</color> <!-- nibp血压计背景颜色 -->
+    <color name="temp_color">#003366</color> <!-- temp仪器颜色 -->
+    <color name="ecg_color">#00ff00</color> <!-- ECG波形颜色 -->
+    <color name="Red">#FF0000</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Blue">#0000FF</color>
+    <color name="Green">#00FF00</color>
+    <color name="Yellow">#FFFF00</color>
+    <color name="ShenHuise">#36648B</color> <!-- 深灰 -->
+
+    <color name="Orange">#FFA500</color> <!-- 橙色 -->
+    <color name="Black">#000000</color> <!-- 黑色 -->
+    <color name="Black1">#333333</color> <!-- 黑色 -->
+    <color name="DarkSlateGray">#2F4F4F</color> <!-- 暗瓦灰色/暗石板灰 -->
+    <color name="DimGray">#696969</color> <!-- 暗淡灰 -->
+    <color name="sandybrown">#F4A460</color> <!-- 沙褐色 -->
+    <color name="linen">#FAF0E6</color> <!-- 亚麻色 -->
+    <color name="khaki">#F0E68C</color> <!-- 黄褐色 -->
+    <color name="brown">#A52A2A</color> <!-- 褐色 -->
+    <color name="olive">#808000</color> <!-- 橄榄色 -->
+    <color name="darkgoldenrod">#B8860B</color> <!-- 暗金黄色 -->
+    <color name="darkkhaki">#BDB76B</color> <!-- 暗黄褐色 -->
+    <color name="silver">#C0C0C0</color> <!-- 银色 -->
+    <color name="BurlyWood">#DEB887</color> <!-- 硬木色 -->
+    <color name="CornflowerBlue">#6495ED</color> <!-- 车矢菊蓝 -->
+    <color name="LightSteelBlue">#B0C4DE</color> <!-- 亮钢蓝 -->
+    <color name="Tan">#D2B48C</color> <!-- 亮钢蓝 -->
+    <color name="quantouming">#00000000</color> <!-- 透明色 -->
+    <color name="bantouming">#20000000</color> <!-- 透明色 -->
+    <color name="bantouming1">#40000000</color> <!-- 透明色1 -->
+    <color name="bantouming2">#80000000</color> <!-- 透明色2 -->
+    <color name="bantouming3">#B0000000</color> <!-- 透明色3 -->
+    <color name="Gainsboro">#DCDCDC</color> <!-- 淡灰色 -->
+    <color name="LightGrey">#D3D3D3</color> <!-- 浅灰色 -->
+    <color name="Silver">#C0C0C0</color> <!-- 银灰色 -->
+    <color name="DarkGray">#A9A9A9</color> <!-- 深灰色 -->
+    <color name="LightSkyBlue">#87CEFA</color> <!-- 亮天蓝色 -->
+    <color name="SteelBlue">#4682B4</color> <!-- 刚蓝/铁青 -->
+    <color name="Cyan">#556B2F</color> <!-- 青色 -->
+    <color name="page_title_color">#0072BB</color>
+
+</resources>

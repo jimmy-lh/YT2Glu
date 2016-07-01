@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">YT2Glu</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="error_configuration">Please configure your serial port first.</string>
+    <string name="error_security">You do not have read/write permission to the serial
+		port.</string>
+    <string name="error_unknown">The serial port can not be opened for an unknown
+		reason.</string>
+
+    <!-- 字符定义 -->
+    <string name="hint_version">软件版本:v0.13</string>
+    <string name="hint_trigger">触发</string>
+    <string name="hint_insert">请插入试纸</string>
+    <string name="hint_staxis">请滴血测量</string>
+    <string name="hint_disabled">试纸已失效</string>
+    <string name="hint_glu_high">血糖值太高</string>
+    <string name="hint_glu_low">血糖值太低</string>
+    <string name="hint_temp_high">温度超标</string>
+    <string name="hint_batt">电池电压不足</string>
+    <string name="hint_start">请先打开软件再插入试纸</string>
+    <string name="hint_time">倒计时</string>
+    <string name="sn">SN</string>
+    <string name="temp">温度</string>
+    <string name="time">时间</string>
+    <string name="temp_unit">&#176;C</string>
+    <string name="value">血糖值</string>
+    <string name="value_unit">mmol/L</string>
+    <string name="value_unit_mg">mg/dl</string>
+    <string name="slope">slope</string>
+    <string name="mode1">指血模式</string>
+    <string name="mode2">质控模式</string>
+    <string name="mode3">电阻试片模式</string>
+    <string name="mode4">生化模式</string>
+    <!-- end -->
+
+</resources>
