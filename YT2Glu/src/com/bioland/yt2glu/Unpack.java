@@ -1,13 +1,8 @@
 package com.bioland.yt2glu;
 
-import java.io.File;
-import java.io.FileWriter;
-
 import com.miracle.widget.sharedpreferences.MyPreference;
 
 import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 public class Unpack {
@@ -19,14 +14,12 @@ public class Unpack {
 	public int value[] = new int[5];
 	public int value_count = 0;
 	public int sn = 0;
-	public int originalValue[][] = new int[5][3];
 	private byte snHigh = 0;
 	private byte snMiddle = 0;
 	private byte snLow = 0;
 	private byte dataHigh = 0;
 	private byte dataMiddle = 0;
 	private byte dataLow = 0;
-	private boolean isValue = false;
 
 	// 1、插入试纸，2、获取到sn值，3、获取到倒计时，4、发送测量模式，5、获取到结果,6、获取时间,7、星星闪烁
 	public final static byte GAIN_NOTHING = 0;
@@ -86,9 +79,14 @@ public class Unpack {
 		return buffer;
 	}
 
+	private void initStep() {
+		step = GAIN_NOTHING;// 表示插入试纸,获得的温度
+	}
+
 	private void initValue() {
-		isValue = false;
-		step = 0;// 表示插入试纸,获得的温度
+		for (int i = 0; i < 5; i++) {
+			value[i] = 0;
+		}
 	}
 
 	/**
@@ -102,6 +100,7 @@ public class Unpack {
 			if (checkSum(buffer, 8)) {
 				temp = asciiToNum(buffer[3]) * 100 + asciiToNum(buffer[4]) * 10 + asciiToNum(buffer[5]);
 				// 初始化状态值
+				initStep();
 				initValue();
 				step = GAIN_INSERT;
 				return true;
@@ -124,15 +123,15 @@ public class Unpack {
 			case STATE_NORMAL:
 				// buffer[3]，buffer[4]，buffer[5]为需要保存的值
 				if (checkSumDecode(buffer, 8)) {
+					initStep();
 					int data = dataHigh * 100 + dataMiddle * 10 + dataLow;
-					if (data > 15) {
+					if (data > 11) {
 						value_count = asciiToNum((byte) buffer[6]);
-						for (int i = 0; i < 3; i++) {
-							originalValue[value_count][i] = buffer[i + 3];
-						}
 						value[value_count] = dataHigh * 100 + dataMiddle * 10 + dataLow;
-						step = GAIN_GETVALUE;
-						return true;
+						if (value_count == 4) {
+							step = GAIN_GETVALUE;
+							return true;
+						}
 					} else {
 						countdown = dataHigh * 100 + dataMiddle * 10 + dataLow;
 						step = GAIN_COUNTDOWN;
@@ -146,12 +145,10 @@ public class Unpack {
 				break;
 			case STATE_VALUE_HIGH:
 				// 血糖值太高
-				showToast(buffer, R.string.hint_glu_high, "2");
-				break;
+				return showBeyondToast(buffer, R.string.hint_glu_high, "2");
 			case STATE_VALUE_LOW:
 				// 血糖值太低
-				showToast(buffer, R.string.hint_glu_low, "3");
-				break;
+				return showBeyondToast(buffer, R.string.hint_glu_low, "3");
 			case STATE_TEMP:
 				// 温度超标
 				showToast(buffer, R.string.hint_temp_high, "4");
@@ -169,7 +166,6 @@ public class Unpack {
 		// E获取模式
 		// if (buffer[1] == 69) {
 		// if (checkSumDecode(buffer, 8)) {
-		// isValue = true;
 		// step = GAIN_GETMODE;
 		// return true;
 		// }
@@ -205,9 +201,23 @@ public class Unpack {
 	//
 	// }
 
+	private boolean showBeyondToast(final byte[] buffer, int id, String str) {
+		if (checkSumDecode(buffer, 8)) {
+			initStep();
+			Toast.makeText(contexts, myGetString(id), Toast.LENGTH_SHORT).show();
+			value_count = asciiToNum((byte) buffer[6]);
+			value[value_count] = dataHigh * 100 + dataMiddle * 10 + dataLow;
+			if (value_count == 4) {
+				step = GAIN_GETVALUE;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void showToast(final byte[] buffer, int id, String str) {
 		if (checkSum(buffer, 8)) {
-			initValue();
+			initStep();
 			Toast.makeText(contexts, myGetString(id), Toast.LENGTH_SHORT).show();
 			saveError(str);
 		}

@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -196,14 +197,15 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 				int i = 0, j = 0;
 				byte[] buf = buffer;
 				// 打印接收到的数据
-				// for (int k = 0; k < buf.length; k++) {
-				// if (buf[k] != 0)
-				// LogUtil.e(TAG, "156 buf[k]=" + String.valueOf(buf[k]));
-				// }
+				for (int k = 0; k < buf.length; k++) {
+					if (buf[k] != 0)
+						Log.e(TAG, "156 buf[" + k + "]=" + String.valueOf(buf[k]));
+				}
 				while (i < size) {
 					if (buf[j] == 53) {
 						buf = myUnpack.bufShifting(buffer, size, j);
 						j = 0;
+						Log.e(TAG, "进入while循环了 ");
 						// 判断是否为true，解决没有收到有效数据但是收到53时，重复发送信号
 						if (myUnpack.setData(buf)) {
 							Message msg = new Message();
