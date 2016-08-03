@@ -11,7 +11,7 @@
 		reason.</string>
 
     <!-- 字符定义 -->
-    <string name="hint_version">软件版本:v0.14</string>
+    <string name="hint_version">软件版本:v0.15</string>
     <string name="hint_trigger">触发</string>
     <string name="hint_insert">请插入试纸</string>
     <string name="hint_staxis">请滴血测量</string>

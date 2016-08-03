@@ -83,6 +83,8 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 	// dialog参数
 	private PermissionPasswordDialog mPermissionDialog;
 	private boolean isShowDialog = false; // 是否正在显示dialog
+	// 是否异常
+	private boolean isException = false;
 
 	// 数据上传服务器相关参数
 	private JsonServiceGet mJsonServiceGet;
@@ -342,14 +344,15 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 			case Unpack.GAIN_GETTIME:
 				// 停止星星闪烁
 				isBlink = false;
+				// 提示血液异常
+				getAlarm();
 				// 版本0.03增加显示数值和提示信息
 				if (measureMode != 3) {
 					getResult();
 				} else {
 					getBiochemistryResult();
 				}
-				// 提示血液异常
-				getAlarm();
+				isException = false;
 				// 测试完成,保存数据
 				measureCount++;
 				mPreference.putInt(MyPreference.MEASURE_COUNT, measureCount);
@@ -567,12 +570,14 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 		mResultZ = mResultX * mResultF;
 		mResult = (float) Math.round((mResultZ / 18.0) * 10) / 10;
 		// 数值显示到界面
-		if ((mResultZ < 10) || (mResultX < 10)) {
-			mTextViewVersion3Value.setText("Lo");
-		} else if ((mResultZ > 600) || (mResultX > 600)) {
-			mTextViewVersion3Value.setText("Hi");
-		} else {
-			mTextViewVersion3Value.setText(String.valueOf(mResult));
+		if (!isException) {
+			if ((mResultZ < 10) || (mResultX < 10)) {
+				mTextViewVersion3Value.setText("Lo");
+			} else if ((mResultZ > 600) || (mResultX > 600)) {
+				mTextViewVersion3Value.setText("Hi");
+			} else {
+				mTextViewVersion3Value.setText(String.valueOf(mResult));
+			}
 		}
 	}
 
@@ -606,12 +611,14 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 		mResultZ = mResultX * mResultF;
 		mResult = (float) Math.round((mResultZ / 18.0) * 10) / 10;
 		// 数值显示到界面
-		if ((mResultZ < 10) || (mResultX < 10)) {
-			mTextViewVersion3Value.setText("Lo");
-		} else if ((mResultZ > 600) || (mResultX > 600)) {
-			mTextViewVersion3Value.setText("Hi");
-		} else {
-			mTextViewVersion3Value.setText(String.valueOf(mResult));
+		if (!isException) {
+			if ((mResultZ < 10) || (mResultX < 10)) {
+				mTextViewVersion3Value.setText("Lo");
+			} else if ((mResultZ > 600) || (mResultX > 600)) {
+				mTextViewVersion3Value.setText("Hi");
+			} else {
+				mTextViewVersion3Value.setText(String.valueOf(mResult));
+			}
 		}
 	}
 
@@ -623,8 +630,15 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 	private void getAlarm() {
 		switch (measureMode) {
 		case 0:
-			if (myUnpack.time < 70 || myUnpack.time > 200) {
-				Toast.makeText(this, "血液异常", Toast.LENGTH_SHORT).show();
+			// 判断是否血液异常
+			if (myUnpack.time <= 19) {
+				Toast.makeText(this, "血液异常(1)", Toast.LENGTH_SHORT).show();
+				isException = true;
+			} else if ((myUnpack.time <= 30) && (myUnpack.value[3] - myUnpack.value[4] <= 1)) {
+				Toast.makeText(this, "血液异常(2)", Toast.LENGTH_SHORT).show();
+				isException = true;
+			} else if (myUnpack.time < 70 || myUnpack.time > 200) {
+				Toast.makeText(this, "血液异常(3)", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case 1:
