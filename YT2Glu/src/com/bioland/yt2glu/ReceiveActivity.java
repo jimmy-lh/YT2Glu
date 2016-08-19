@@ -44,6 +44,7 @@ import android.provider.Settings.Secure;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -114,6 +115,7 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.receive);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		myUnpack = Unpack.getInstance(ReceiveActivity.this);
 
 		initView();

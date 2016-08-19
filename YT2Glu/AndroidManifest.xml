@@ -22,11 +22,6 @@
     </uses-permission>
     <!-- end -->
 
-
-    <!-- 屏幕常亮 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- end -->
-
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
