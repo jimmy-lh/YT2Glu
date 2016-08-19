@@ -96,7 +96,7 @@ public abstract class SerialPortActivity extends Activity {
 
 	public void getSerialPort() throws SecurityException, IOException {
 		if (mSerialPort == null) {
-			mSerialPort = new SerialPort(new File("/dev/ttyMT1"), 2400, 0);
+			mSerialPort = new SerialPort(new File("/dev/ttyS2"), 2400, 0);
 		}
 	}
 

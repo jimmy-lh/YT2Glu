@@ -11,13 +11,20 @@
     </uses-permission>
     <!-- end -->
 
+
     <!-- 网络连接状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- end -->
 
+
     <!-- JsonService -->
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
+    <!-- end -->
+
+
+    <!-- 屏幕常亮 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- end -->
 
     <uses-sdk
@@ -35,7 +42,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
     </application>
