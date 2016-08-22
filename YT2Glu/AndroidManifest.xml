@@ -21,6 +21,10 @@
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
     <!-- end -->
+    
+    <!-- 点亮屏幕 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- end -->
 
     <uses-sdk
         android:minSdkVersion="14"

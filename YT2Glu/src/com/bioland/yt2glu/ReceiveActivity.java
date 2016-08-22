@@ -40,6 +40,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
 import android.provider.Settings.Secure;
 import android.view.KeyEvent;
 import android.view.View;
@@ -111,11 +112,16 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 		context.startActivity(intent);
 	}
 
+	private PowerManager.WakeLock mWakelock;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.receive);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		// init powerManager
+		PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+		mWakelock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "target");
 		myUnpack = Unpack.getInstance(ReceiveActivity.this);
 
 		initView();
@@ -197,8 +203,11 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 	protected void onDataReceived(final byte[] buffer, final int size) {
 		runOnUiThread(new Runnable() {
 			public void run() {
+				mWakelock.acquire(); // Wake up Screen and keep screen lighting
 				int i = 0, j = 0;
 				byte[] buf = buffer;
+				mWakelock.release(); // release control.stop to keep screen
+										// lighting
 				// 打印接收到的数据
 				// for (int k = 0; k < buf.length; k++) {
 				// if (buf[k] != 0)
@@ -302,6 +311,7 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case Unpack.GAIN_INSERT:
+				testOnKeyDown();
 				isGluMeasuring = true;// 插入试纸测量开始
 				// 初始化isShowDialog
 				if (mPermissionDialog.isRightPassword) {
@@ -359,6 +369,7 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 				measureCount++;
 				mPreference.putInt(MyPreference.MEASURE_COUNT, measureCount);
 				saveUserDB(myUnpack.time, String.valueOf(myUnpack.temp), myUnpack.value, String.valueOf(mResult));
+				testOnKeyUp();
 				break;
 			case Unpack.GAIN_STARBLINK:
 				if (mImageViewStar.getVisibility() == View.INVISIBLE) {
@@ -489,6 +500,24 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 			mTextViewVersion3Value.setText("--.-");
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	public void testOnKeyDown() {
+		// 显示试纸图标
+		mImageViewPaper.setVisibility(ImageView.VISIBLE);
+		// 清空最终值的显示；
+		mTextViewVersion3Value.setText("--.-");
+	}
+
+	public void testOnKeyUp() {
+		isGluMeasuring = false;// 拔出试纸，测量结束
+		mVoiceCount = 0;// 初始化声音定时器
+		// 隐藏试纸图标的显示
+		mImageViewPaper.setVisibility(ImageView.INVISIBLE);
+		// 测量中途拔出，关闭星星闪烁,代码放在隐藏星星图标代码的前面
+		isBlink = false;
+		// 隐藏星星图标
+		mImageViewStar.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -721,9 +750,9 @@ public class ReceiveActivity extends SerialPortActivity implements OnClickListen
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (connectionReceiver != null) {
-			unregisterReceiver(connectionReceiver);
-		}
+		// if (connectionReceiver != null) {
+		// unregisterReceiver(connectionReceiver);
+		// }
 	}
 
 }

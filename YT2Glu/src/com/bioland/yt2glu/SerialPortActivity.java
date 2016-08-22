@@ -109,20 +109,20 @@ public abstract class SerialPortActivity extends Activity {
 
 	protected abstract void onDataReceived(final byte[] buffer, final int size);
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		LogUtil.e(TAG + "115", "关闭串口");
-		onDestroy();
-	}
+	// @Override
+	// protected void onPause() {
+	// super.onPause();
+	// LogUtil.e(TAG + "115", "关闭串口");
+	// onDestroy();
+	// }
 
-	@Override
-	protected void onDestroy() {
-		if (mReadThread != null)
-			mReadThread.interrupt();
-		closeSerialPort();
-		mSerialPort = null;
-		super.onDestroy();
-		System.exit(0);// finish();只是将程序放到后台，等资源不足才会释放。想直接退出程序，用System.exit(0);
-	}
+	// @Override
+	// protected void onDestroy() {
+	// if (mReadThread != null)
+	// mReadThread.interrupt();
+	// closeSerialPort();
+	// mSerialPort = null;
+	// super.onDestroy();
+	// System.exit(0);// finish();只是将程序放到后台，等资源不足才会释放。想直接退出程序，用System.exit(0);
+	// }
 }
